@@ -1,0 +1,20 @@
+# .gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Include the virtual environment:
+venv/
+
+# Pytest:
+.coverage
+
+# Jupyter notebook files:
+.ipynb_checkpoints/
+
+# Ignore Mac system files
+.DS_Store
+
+# Sqlite
+*.db
