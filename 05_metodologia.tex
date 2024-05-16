@@ -1,0 +1,26 @@
+\section{Metodologia de Avaliação}
+\label{Metodologia}
+
+A metodologia de avaliação proposta para o presente estudo tem como objetivo avaliar o desempenho do Cluster K3s em ambientes de Internet das Coisas.
+Para isso, será utilizado um modelo de aplicação que simula um sistema de monitoramento de sensores, onde os dados são enviados para um servidor central para processamento.
+O modelo de aplicação foi pensado para representar um caso de uso comum de sistemas de Internet das Coisas, com processamento em forma de streaming de dados a partir dos clientes para o servidor.
+
+Serão comparados cenários utilizando o Cluster K3s e o Kubernetes, e cenários sem a utilização de orquestradores de contêineres.
+Ambos irão rodar em um mesmo ambiente de nuvem, com as mesmas configurações, para garantir a igualdade de condições de \textit{hardware}.
+Serão avaliadas métricas gerais de consumo de recursos, como CPU, memória e rede, e métricas específicas de desempenho, como tempo de resposta e throughput para validação dos cenários
+
+Serão realizados 4 cenários de avaliação, sendo eles:
+\begin{itemize}
+    \item \textbf{Cenário 1}: Ambiente sem orquestrador de contêineres com baixa carga de trabalho, buscando avaliar o consumo dos recursos sem a utilização de um orquestrador de contêineres controlando a distribuição de recursos.
+    Nesse caso o contêiner terá disponível todos os recursos da máquina virtual.
+
+    \item \textbf{Cenário 2}: Cluster K3s com baixa carga de trabalho, buscando avaliar o desempenho do Cluster K3s durante condições normais de operação.
+    Nesse cenário busca-se entender o consumo de recursos base referente a utilização de um orquestrador de contêineres. 
+
+    \item \textbf{Cenário 3}: Ambiente sem orquestrador de contêineres com alta carga de trabalho, buscando avaliar o desempenho de um ambiente sem orquestrador de contêineres durante condições de sobrecarga.
+    Nesse cenário busca-se entender tanto o consumo de recursos quanto o throughput e qualidade da aplicação. 
+
+    \item \textbf{Cenário 4}: Cluster K3s com alta carga de trabalho, buscando avaliar o desempenho do Cluster K3s durante condições de sobrecarga. 
+    Busca-se também avaliar a capacidade de escalabilidade do Cluster K3s em um ambiente com baixa disponibilidade de recursos.
+
+\end{itemize}

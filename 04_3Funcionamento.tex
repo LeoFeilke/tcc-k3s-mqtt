@@ -1,0 +1,49 @@
+\subsection{Funcionamento}
+
+O modelo apresentado irá funcionar com base em 3 módulos em funcionamento na camada de Servidor apresentada na subseção \ref{Arquitetura}. 
+Os 3 módulos buscam implementar um sistema de verificação e validação de dados vindos de diversos clientes, gerando notificações caso encontre algum problema. 
+O recebimento das mensagens e processamento das mesmas será realizado a partir dos contêineres providos pelos Cluster K3s rodando no servidor, já o serviço de Notificação estará em funcionamento fora do Cluster K3s, como visto na Figura \ref{fig:Arq1}.
+
+O modelo foi pensando para representar um caso de uso comum de sistemas de Internet das Coisas, com processamento em forma de streaming de dados a partir dos clientes para o servidor.
+Como será utilizado o HiveMQ para a comunicação MQTT, o cliente poderá ser escalado de forma horizontal, aumentando o número de instâncias sem a necessidade de alterações no código fonte.
+Desssa forma, será possíve aumentar significativamente o número de mensagens enviadas para o servidor sem a necessidade de alterações no código fonte, apenas com a adição de novas instâncias do cliente.
+Como buscamos compreender o desempenho do Cluster K3s em ambientes de IoT, a camada do servidor contará apenas com escalabilidade horizontal dentro das capacidades da Máquina Virutal utilizada.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama de sequência da aplicação}
+    \includegraphics[width=1\linewidth]{images/sequence.png}\\
+ Fonte: Elaborada pelo autor
+    \label{fig:enter-label}
+\end{figure}
+
+\subsubsection{\textit{Message Handler}}
+
+O \textit{Message Handler} será o módulo da aplicação responsável pela inscrição no tópico MQTT e o recebimento das mensagens. 
+Esse módulo irá validar que a mensagem contém todos os campos obrigatórios para realização do processamento posterior. 
+O \textit{Message Handler} não faz nenhum tipo de processamento e atua apenas como uma camada de conexão e recebimento de mensagens.
+Caso a conexão com o brooker MQTT seja perdida, o \textit{Message Handler} irá tentar se reconectar ao brooker.
+O \textit{Message Handler} e o \textit{Threshold Service} fazem parte da mesma aplicação, sendo assim, a comunicação entre eles será feita via chamadas de função.
+
+Será criada uma configuração para o \textit{Message Handler} a partir de variáveis de ambiente que serão passadas no momento da criação do contêiner ou pela definição do deployment no Cluster K3s.
+Essas variáveis irão especificar o endereço do brooker MQTT, o tópico que o \textit{Message Handler} irá se inscrever, assim como as credenciais de autenticação para se conectar com o brooker MQTT. 
+Isso garante que o \textit{Message Handler} possa ser configurado de forma dinâmica e escalável, e que não exista conexões indesejadas com o sistema.
+
+\subsubsection{\textit{Threshold Service}}
+
+O \textit{Threshold Service} atuará como a camada de verificação de dados. 
+Esse módulo irá receber as mensagens do \textit{Message Handler} e verificar se os valores recebidos estão dentro dos limites estabelecidos. 
+Caso algum valor esteja fora do limite, o \textit{Threshold Service} irá se comunicar com o \textit{Notification Service} via uma chamada HTTP.
+Essa chamada irá conter as informações necessárias para a identificação do cliente e do valor que está fora do limite.
+Na figura TAL é possível visualizar a o formato de dados esperado pelo \textit{Notification Service}.
+
+\subsubsection{\textit{Notification Service}}
+
+O \textit{Notification Service} será o módulo responsável por enviar notificações para os clientes que tiveram valores fora do limite.
+Como o \textit{Notification Service} é um serviço externo ao Cluster K3s, ele não terá acesso direto aos contêineres que estão rodando no servidor. 
+Sendo assim, a comunicação entre o \textit{Threshold Service} e o \textit{Notification Service} será feita via chamadas HTTP.
+
+Como o estudo em questão será focado na avaliação do desempenho do Cluster K3s, o \textit{Notification Service} será implementado de forma a apenas receber as chamadas HTTP e não enviar notificações reais para os clientes.
+Ele será implementado para simular o custo das chamadas HTTP entre as aplicações e o tempo de resposta do serviço para criação de um cenário mais próximo do real.
+
+

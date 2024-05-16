@@ -1,0 +1,28 @@
+\subsection{Arquitetura} \label{Arquitetura}
+
+A arquitetura proposta é baseada em nas decisões de projeto apresentadas na subseção \ref{DecisoesProjeto}. 
+Essa arquitetura foi dividida em 3 camadas, cada uma representando uma funcionalidade do sistema. 
+Essas camadas são o Cliente, o Agente de Mensageria e o Servidor.
+
+A camada Cliente é pensada para apenas enviar as mensagens e não realizar nenhum processamento em cima dos dados. 
+Essa camada pode ser pensada como um sistema de Internet das Coisas que faz medições a partir de sensores simples. 
+Essa camada precisa de uma conexão com a Internet para enviar as mensagens para a próxima, que é o Agente de Mensageria.
+
+A camada da arquitetura do Agente de Mensageria é responsável pelo recebimento das mensagens dos Clientes, e redirecionamento desta mesma aos Servidores conectados que estão esperando mensagens do tópico no qual o Cliente especifica durante o envio da mensagem. 
+Essa camada é responsável pela escalabilidade do sistema, garantindo que múltiplos serviços conectados no mesmo Agente de Mensageria recebam a informação simultaneamente. 
+Para o Agente de Mensageria, não é relevante o que cada serviço  fazer com a mensagem, gerando um desacoplamento de lógicas de negócio do sistema e possibilitando a realização de processamento em paralelo por múltiplos sistemas.
+O Agente de Mensageria é responsável por garantir a entrega das mensagens aos Servidores conectados, garantindo a integridade e a ordem das mensagens recebidas.
+
+Finalmente, a camada do Servidor será o foco do presente estudo. A camada do Servidor tem como principal função receber as mensagens enviadas pela camada Agente de Mensageria e realizar o processamento destas informações. Esse processamento pode envolver uma variedade de tarefas, como análise de dados, execução de algoritmos específicos, ou a realização de operações de banco de dados, dependendo da lógica de negócio implementada. O objetivo principal é extrair valor das mensagens recebidas, seja por meio da geração de insights, da indução de comportamentos no sistema ou da triggerização de outras operações. Por estar no ponto de recepção da mensagem, a camada de Servidor deve ser capaz de gerenciar altas cargas de trabalho e garantir a alta disponibilidade do serviço. Além disso, a camada de Servidor constitui um ponto crucial para a segurança do sistema, sendo responsável pela legitimidade das operações executadas e pela integridade dos dados recebidos e processados.
+
+\begin{figure}[h]
+    \centering
+    \caption{Arquitetura Proposta de Mensageria distribuída}
+    \includegraphics[width=1\linewidth]{images/Arq1.png}\\
+ Fonte: Elaborada pelo autor
+    \label{fig:Arq1}
+\end{figure}
+
+\newpage
+
+
