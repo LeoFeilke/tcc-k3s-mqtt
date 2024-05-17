@@ -1,3 +1,7 @@
+"""
+This script is responsible for consuming the data from the MQTT broker
+"""
+
 import json
 import sqlite3
 import paho.mqtt.client as mqtt
@@ -8,7 +12,7 @@ TOPIC = "unisinos/feilke/weather_station/data"
 DATABASE_FILE = "weather_station.db"  # SQLite Database file
 
 
-def on_connect(client, __userdata__, __flags__, rc, __properties__):
+def on_connect(client_instance, __userdata__, __flags__, rc, __properties__):
     """Handle the on_connect event from the MQTT broker
 
     Args:
@@ -19,7 +23,7 @@ def on_connect(client, __userdata__, __flags__, rc, __properties__):
         __properties__ (_type_): _description_
     """
     print("Connected with result code " + str(rc))
-    client.subscribe(TOPIC)
+    client_instance.subscribe(TOPIC)
 
 
 def on_message(__client__, __userdata__, msg):

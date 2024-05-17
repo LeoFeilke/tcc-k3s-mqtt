@@ -1,6 +1,10 @@
-import time
+"""
+This script is responsible for producing the data to the MQTT broker
+"""
+
 import random
 import json
+import time
 import paho.mqtt.client as mqtt
 
 MQTT_BROKER_IP = "broker.hivemq.com"  # Replace with your MQTT broker IP
