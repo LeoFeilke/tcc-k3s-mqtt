@@ -1,0 +1,8 @@
+{
+  "client_id": "10c9ba5b-ed0c-4425-8829-21a661f70616",
+  "user_id": "d3e3b8b0-9e7e-4f0d-9b3f-6e5b349f6d9e",
+  "event_type": "temperature.overheat",
+  "timestamp": "2024-05-06T14:00:00.000Z",
+  "severity": 7,
+  "correlation_id": "a1b42e0b-6b7f-4f1f-bd0e-7a9e2d5c5c1a"
+}
