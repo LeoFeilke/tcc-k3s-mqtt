@@ -19,10 +19,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Consumer Docker image
-        run: docker build . --file docker/consumer.Dockerfile --tag consumer:latest
+        run: docker build . --file docker/consumer.Dockerfile --tag leofeilke/consumer:latest
 
       - name: Build Producer Docker image
-        run: docker build . --file docker/producer.Dockerfile --tag producer:latest
+        run: docker build . --file docker/producer.Dockerfile --tag leofeilke/producer:latest
 
       - name: Push Consumer Docker image
         run: docker push leofeilke/consumer:latest
