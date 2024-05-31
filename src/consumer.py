@@ -96,17 +96,21 @@ def check_temperature_and_notify(data, threshold, url):
         }
 
         # Make an HTTP request to the endpoint
-        response = requests.post(url, json=payload)
-
-        # Check if the request was successful
-        if response.status_code == 200:
-            logging.info(
-                f"Notification sent successfully. Temperature: {data['temperature']}"
-            )
-        else:
-            logging.warn(
-                f"Failed to send notification. Status code: {response.status_code}"
-            )
+        try:
+            response = requests.post(url, json=payload)
+            # Check if the request was successful
+            if response.status_code == 200:
+                logging.info(
+                    f"Notification sent successfully. Temperature: {data['temperature']}"
+                )
+            else:
+                logging.warn(
+                    f"Failed to send notification. Status code: {response.status_code}"
+                )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Failed to send notification. Error: {str(e)}")
+            return
 
 
 logging.basicConfig(
