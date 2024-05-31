@@ -25,7 +25,7 @@ jobs:
         run: docker build . --file docker/producer.Dockerfile --tag producer:latest
 
       - name: Push Consumer Docker image
-        run: docker push leofeilke/tcc-leonardo-feike:consumer:latest
+        run: docker push leofeilke/consumer:latest
 
       - name: Push Producer Docker image
-        run: docker push leofeilke/tcc-leonardo-feike:producer:latest
+        run: docker push leofeilke/producer:latest
