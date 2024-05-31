@@ -24,8 +24,14 @@ jobs:
       - name: Build Producer Docker image
         run: docker build . --file docker/producer.Dockerfile --tag leofeilke/producer:latest
 
+      - name: Build Producer Docker image
+        run: docker build . --file docker/notification.Dockerfile --tag leofeilke/notification:latest
+
       - name: Push Consumer Docker image
         run: docker push leofeilke/consumer:latest
 
       - name: Push Producer Docker image
         run: docker push leofeilke/producer:latest
+
+      - name: Push Notification Docker image
+        run: docker push leofeilke/notification:latest
